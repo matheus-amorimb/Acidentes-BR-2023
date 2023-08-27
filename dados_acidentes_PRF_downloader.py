@@ -22,7 +22,6 @@ def get_Dados_Acidentes_PRF_BR(ano = 0):
     
     if ano != 0:
         years_download = [links_download[anos.index(ano)]]
-        print(years_download)
 
     for link_download in years_download:
 
@@ -38,7 +37,7 @@ def get_Dados_Acidentes_PRF_BR(ano = 0):
             file.write(download_request.content)
 
         with zipfile.ZipFile(local_filename, "r") as zip_ref:
-            zip_ref.extractall(os.getcwd())
+            zip_ref.extractall(os.getcwd() + "\data")
         
         os.remove(local_filename)
 
