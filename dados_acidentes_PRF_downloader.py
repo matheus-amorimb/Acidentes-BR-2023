@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import zipfile
 import os
 
-def get_Dados_Acidentes_PRF_BR(ano = 0):
+def get_dados_acidentes_PRF_BR(ano = 0):
     url = "https://www.gov.br/prf/pt-br/acesso-a-informacao/dados-abertos/dados-abertos-da-prf"
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
@@ -42,4 +42,4 @@ def get_Dados_Acidentes_PRF_BR(ano = 0):
         os.remove(local_filename)
 
 if __name__ == "__main__":
-    get_Dados_Acidentes_PRF_BR(2023)
+    get_dados_acidentes_PRF_BR(2023)
