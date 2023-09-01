@@ -2,8 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import zipfile
 import os
+import datetime
 
-def get_dados_acidentes_PRF_BR(ano = 0):
+def get_dados_acidentes_PRF_BR(ano_inicial_download = 0, ano_final_download = datetime.datetime.now().year, anos_download = [] ):
+
     url = "https://www.gov.br/prf/pt-br/acesso-a-informacao/dados-abertos/dados-abertos-da-prf"
     response = requests.get(url)
     response.raise_for_status() # Raise an exception for HTTP errors
@@ -20,9 +22,18 @@ def get_dados_acidentes_PRF_BR(ano = 0):
                 link_tag = cell.find_next("a",  href=True)
                 links_download.append(link_tag["href"])
     
-    if ano != 0:
-        years_download = [links_download[anos.index(ano)]]
+    if ano_inicial_download != 0:
+        anos_to_download = range(ano_inicial_download, ano_final_download + 1, 1)
 
+    elif len(anos_download) > 0:
+        anos_to_download = [int(i) for i in anos_download]
+
+    else:
+        anos_to_download = anos
+    
+    
+    years_download = [links_download[anos.index(ano)] for ano in anos_to_download]
+    
     for link_download in years_download:
 
         file_id = link_download.split("/")[5]
@@ -42,4 +53,4 @@ def get_dados_acidentes_PRF_BR(ano = 0):
         os.remove(local_filename)
 
 if __name__ == "__main__":
-    get_dados_acidentes_PRF_BR(2023)
+    get_dados_acidentes_PRF_BR()
