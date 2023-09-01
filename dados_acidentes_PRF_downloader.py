@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import zipfile
 import os
 import datetime
+from tqdm import tqdm
 
 def get_dados_acidentes_PRF_BR(ano_inicial_download = 0, ano_final_download = datetime.datetime.now().year, anos_download = [] ):
 
@@ -34,7 +35,7 @@ def get_dados_acidentes_PRF_BR(ano_inicial_download = 0, ano_final_download = da
     
     years_download = [links_download[anos.index(ano)] for ano in anos_to_download]
     
-    for link_download in years_download:
+    for link_download in tqdm(years_download):
 
         file_id = link_download.split("/")[5]
         download_url = f"https://drive.google.com/u/0/uc?id={file_id}&export=download"
@@ -53,4 +54,4 @@ def get_dados_acidentes_PRF_BR(ano_inicial_download = 0, ano_final_download = da
         os.remove(local_filename)
 
 if __name__ == "__main__":
-    get_dados_acidentes_PRF_BR()
+    get_dados_acidentes_PRF_BR(2007, 2012)
